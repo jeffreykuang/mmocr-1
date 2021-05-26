@@ -32,7 +32,10 @@ class DBHead(HeadMixin, nn.Module):
         """
         super().__init__()
 
-        assert isinstance(in_channels, int)
+        assert isinstance(in_channels, int) or isinstance(in_channels, list)
+
+        if isinstance(in_channels, list):
+            in_channels = sum(in_channels)
 
         self.in_channels = in_channels
         self.text_repr_type = text_repr_type
@@ -68,6 +71,9 @@ class DBHead(HeadMixin, nn.Module):
         return torch.reciprocal(1.0 + torch.exp(-k * (prob_map - thr_map)))
 
     def forward(self, inputs):
+        if isinstance(inputs, tuple):
+            inputs = torch.cat(inputs, dim=1)
+
         prob_map = self.binarize(inputs)
         thr_map = self.threshold(inputs)
         binary_map = self.diff_binarize(prob_map, thr_map, k=50)
