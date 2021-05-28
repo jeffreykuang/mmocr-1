@@ -251,7 +251,7 @@ class segmenthead(nn.Module):
 
 
 @BACKBONES.register_module()
-class DDRNet23_slim(nn.Module):
+class DDRNet23_slimx2(nn.Module):
 
     def __init__(self,
                  layers,
@@ -262,7 +262,7 @@ class DDRNet23_slim(nn.Module):
                  spp_planes=128,
                  head_planes=128,
                  augment=False):
-        super(DDRNet23_slim, self).__init__()
+        super(DDRNet23_slimx2, self).__init__()
 
         highres_planes = planes * 2
         self.augment = augment
@@ -272,7 +272,7 @@ class DDRNet23_slim(nn.Module):
             nn.Conv2d(3, planes, kernel_size=3, stride=2, padding=1),
             BatchNorm2d(planes, momentum=bn_mom),
             nn.ReLU(inplace=True),
-            nn.Conv2d(planes, planes, kernel_size=3, stride=2, padding=1),
+            nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1),
             BatchNorm2d(planes, momentum=bn_mom),
             nn.ReLU(inplace=True),
         )
@@ -394,8 +394,8 @@ class DDRNet23_slim(nn.Module):
     def forward(self, x):
 
         # output resolution
-        width_output = x.shape[-1] // 8
-        height_output = x.shape[-2] // 8
+        width_output = x.shape[-1] // 4
+        height_output = x.shape[-2] // 4
         layers = []
 
         # 1/4 planes

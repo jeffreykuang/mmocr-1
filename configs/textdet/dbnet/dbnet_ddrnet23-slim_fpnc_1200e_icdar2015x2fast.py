@@ -4,12 +4,12 @@ _base_ = [
 model = dict(
     type='DBNet',
     pretrained='./checkpoints/ddrnet23_slim_cityplace.pth',
-    backbone=dict(type='DDRNet23_slim', layers=[2, 2, 2, 2]),
-    neck=dict(type='IDENTITY'),
+    backbone=dict(type='DDRNet23_slimx2fast', layers=[2, 2, 2, 2]),
+    neck=dict(type='FPNC', in_channels=[64, 256], lateral_channels=256),
     bbox_head=dict(
         type='DBHead',
         text_repr_type='quad',
-        downsample_ratio=0.5,
+        downsample_ratio=1.0,
         in_channels=128,
         loss=dict(type='DBLoss', alpha=5.0, beta=10.0, bbce_loss=True)),
     train_cfg=None,
@@ -64,7 +64,7 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=16,
+    samples_per_gpu=4,
     workers_per_gpu=4,
     train=dict(
         type=dataset_type,

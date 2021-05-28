@@ -251,7 +251,7 @@ class segmenthead(nn.Module):
 
 
 @BACKBONES.register_module()
-class DDRNet23_slim(nn.Module):
+class DDRNet23_slimx2fast(nn.Module):
 
     def __init__(self,
                  layers,
@@ -262,7 +262,7 @@ class DDRNet23_slim(nn.Module):
                  spp_planes=128,
                  head_planes=128,
                  augment=False):
-        super(DDRNet23_slim, self).__init__()
+        super(DDRNet23_slimx2fast, self).__init__()
 
         highres_planes = planes * 2
         self.augment = augment
@@ -399,7 +399,8 @@ class DDRNet23_slim(nn.Module):
         layers = []
 
         # 1/4 planes
-        x = self.conv1(x)
+        x_14 = self.conv1(x)
+        x = x_14
 
         # 1/4 planes
         x = self.layer1(x)
@@ -436,12 +437,4 @@ class DDRNet23_slim(nn.Module):
             size=[height_output, width_output],
             mode='bilinear')
         tmp = x + x_
-        return tmp
-        # print(tmp.shape)
-        # x_ = self.final_layer(x + x_)
-
-        # if self.augment:
-        #    x_extra = self.seghead_extra(temp)
-        #    return [x_, x_extra]
-        # else:
-        #    return x_
+        return (x_14, tmp)
