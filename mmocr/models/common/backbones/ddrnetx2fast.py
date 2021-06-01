@@ -258,7 +258,7 @@ class DDRNet23_slimx2fast(nn.Module):
                  block=BasicBlock,
                  downsample_ratio=0.125,
                  num_classes=19,
-                 planes=64,
+                 planes=32,
                  spp_planes=128,
                  head_planes=128,
                  augment=False):

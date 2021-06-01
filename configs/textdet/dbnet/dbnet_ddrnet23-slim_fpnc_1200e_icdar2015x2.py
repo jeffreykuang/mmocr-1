@@ -10,7 +10,7 @@ model = dict(
         type='DBHead',
         text_repr_type='quad',
         downsample_ratio=1.0,
-        in_channels=256,
+        in_channels=128,
         loss=dict(type='DBLoss', alpha=5.0, beta=10.0, bbce_loss=True)),
     train_cfg=None,
     test_cfg=None)

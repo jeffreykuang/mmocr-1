@@ -5,7 +5,7 @@ model = dict(
     type='DBNet',
     pretrained='./checkpoints/ddrnet23_slim_cityplace.pth',
     backbone=dict(type='DDRNet23_slimx2fast', layers=[2, 2, 2, 2]),
-    neck=dict(type='FPNC', in_channels=[64, 256], lateral_channels=256),
+    neck=dict(type='FPNC', in_channels=[32, 128], lateral_channels=256),
     bbox_head=dict(
         type='DBHead',
         text_repr_type='quad',
